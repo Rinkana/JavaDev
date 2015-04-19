@@ -1,6 +1,7 @@
 package com.greenview;
 
-import com.greenview.classes.Database;
+import com.greenview.classes.DbEnvironmentHandle;
+import com.greenview.classes.DbHandle;
 import com.greenview.classes.Transaction;
 
 public class Main {
@@ -14,7 +15,15 @@ public class Main {
         System.out.println("Sender: " + transaction.getSender());
         System.out.println("Receiver: " + transaction.getReceiver());
 
-        Database database = new Database();
+        try {
+            DbEnvironmentHandle DbEnvironment = new DbEnvironmentHandle();
+            DbHandle DbConnection = new DbHandle(DbEnvironment);
+
+            DbConnection.disconnect();
+            DbEnvironment.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
