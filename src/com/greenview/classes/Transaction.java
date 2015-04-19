@@ -1,4 +1,4 @@
-package com.greenview;
+package com.greenview.classes;
 
 /**
  * Created by max on 19-4-15.
@@ -38,5 +38,12 @@ public class Transaction {
         senderHex = senderHex.toUpperCase();
 
         return senderHex;
+    }
+
+    public String getReceiver(){
+        String receiverHex = Long.toHexString(this.receiver);
+        receiverHex = receiverHex.toUpperCase();
+
+        return receiverHex;
     }
 }
