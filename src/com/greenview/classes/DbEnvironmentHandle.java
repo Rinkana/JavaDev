@@ -5,9 +5,12 @@ import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
 
 import java.io.File;
+import java.nio.file.Files;
 
 /**
- * Created by max on 19-4-15.
+ * @Author: max
+ * @Date: 19-4-15
+ * @Project: bbs
  */
 public class DbEnvironmentHandle {
     final String ENVIRONMENT_LOCATION = "./transactions";
@@ -24,7 +27,11 @@ public class DbEnvironmentHandle {
             envConfig.setAllowCreate(true);
             envConfig.setTransactional(true);
 
-            //boolean dirCreated = new File(ENVIRONMENT_LOCATION).mkdir();
+            File envLocation = new File(ENVIRONMENT_LOCATION);
+            if(!envLocation.exists()){
+                envLocation.mkdir();
+            }
+
             envHandle = new Environment(new File(ENVIRONMENT_LOCATION), envConfig);
         }catch (DatabaseException dbe){
             System.out.println("DB connection issues");

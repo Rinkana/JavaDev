@@ -1,7 +1,9 @@
 package com.greenview.classes;
 
 /**
- * Created by max on 19-4-15.
+ * @Author: max
+ * @Date: 19-4-15
+ * @Project: bbs
  */
 public class Transaction {
 
