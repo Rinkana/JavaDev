@@ -23,15 +23,17 @@ public class DbEnvironmentHandle {
 
     private void connect(){
         try {
+            //Environment config that is always the same.
             EnvironmentConfig envConfig = new EnvironmentConfig();
             envConfig.setAllowCreate(true);
             envConfig.setTransactional(true);
 
+            //We need a folder for the environment. It does not create itself so we do it for him.
             File envLocation = new File(ENVIRONMENT_LOCATION);
             if(!envLocation.exists()){
-                envLocation.mkdir();
+                boolean dircreated = envLocation.mkdir();
             }
-
+            //Connect to the environment
             envHandle = new Environment(new File(ENVIRONMENT_LOCATION), envConfig);
         }catch (DatabaseException dbe){
             System.out.println("DB connection issues");

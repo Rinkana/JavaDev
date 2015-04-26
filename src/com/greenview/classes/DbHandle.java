@@ -14,19 +14,20 @@ public class DbHandle {
     private Database DbHandle = null;
     private String DbName = "";
 
-    public DbHandle(DbEnvironmentHandle DbEnvironment, String DbName){
+    public DbHandle(DbEnvironmentHandle DbEnvironment, String DbName, boolean allowDuplicates){
         this.DbEnvironment = DbEnvironment;
 
         this.DbName = DbName;
 
-        this.connect();
+        this.connect(allowDuplicates);
     }
 
-    private void connect(){
+    private void connect(boolean allowDuplicates){
         try{
+            //Default database config. Is not variable
             DatabaseConfig dbconfig = new DatabaseConfig();
             dbconfig.setAllowCreate(true);
-            dbconfig.setSortedDuplicates(true);
+            dbconfig.setSortedDuplicates(allowDuplicates);
             dbconfig.setTransactional(true);
             DbHandle = this.DbEnvironment.getEnvironment().openDatabase(null, this.DbName, dbconfig);
 
@@ -58,6 +59,8 @@ public class DbHandle {
 
     public void insertRecord(String key, String value){
         try {
+
+            //BerkeleyDb requires bytearrays for values and needs to be within a DatabaseEntry class.
             DatabaseEntry DbEntryKey = new DatabaseEntry(key.getBytes("UTF-8"));
             DatabaseEntry DbEntryValue = new DatabaseEntry(value.getBytes("UTF-8"));
 
@@ -67,6 +70,14 @@ public class DbHandle {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public void insertRecord(DatabaseEntry DbEntryKey, DatabaseEntry DbEntryValue){
+        try{
+            this.DbHandle.putNoOverwrite(null, DbEntryKey, DbEntryValue);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void getRecord(String key){
@@ -98,8 +109,9 @@ public class DbHandle {
     }
 
     public void updateEnvironment(DbEnvironmentHandle DbEnvironment){
+        //I have no idea if this function will be used once.
         this.disconnect();
         this.DbEnvironment = DbEnvironment;
-        this.connect();
+        //this.connect();
     }
 }
