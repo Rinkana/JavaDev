@@ -10,12 +10,12 @@ import java.io.UnsupportedEncodingException;
  * @Project: bbs
  */
 public class DbHandle {
-    private DbEnvironmentHandle DbEnvironment = null;
+    private DbEnvironmentHandle dbEnvironment = null;
     private Database DbHandle = null;
     private String DbName = "";
 
-    public DbHandle(DbEnvironmentHandle DbEnvironment, String DbName, boolean allowDuplicates){
-        this.DbEnvironment = DbEnvironment;
+    public DbHandle(DbEnvironmentHandle dbEnvironment, String DbName, boolean allowDuplicates){
+        this.dbEnvironment = dbEnvironment;
 
         this.DbName = DbName;
 
@@ -29,7 +29,7 @@ public class DbHandle {
             dbconfig.setAllowCreate(true);
             dbconfig.setSortedDuplicates(allowDuplicates);
             dbconfig.setTransactional(true);
-            DbHandle = this.DbEnvironment.getEnvironment().openDatabase(null, this.DbName, dbconfig);
+            DbHandle = this.dbEnvironment.getEnvironment().openDatabase(null, this.DbName, dbconfig);
 
             System.out.println("DB connection made!");
         }catch (DatabaseException dbe){
@@ -108,10 +108,10 @@ public class DbHandle {
         }
     }
 
-    public void updateEnvironment(DbEnvironmentHandle DbEnvironment){
+    public void updateEnvironment(DbEnvironmentHandle dbEnvironment){
         //I have no idea if this function will be used once.
         this.disconnect();
-        this.DbEnvironment = DbEnvironment;
+        this.dbEnvironment = dbEnvironment;
         //this.connect();
     }
 }

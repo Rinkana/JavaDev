@@ -135,4 +135,11 @@ public class Transaction implements Serializable {
 
         return new Transaction();
     }*/
+
+    //Iedereen is enkel een verstuurder van hun eigen gegevens.
+    //Op het moment dat iemand een nieuwe transactie maakt stuurt hij dit naar de rest van zijn connecties.
+    //En die sturen het ook weer door naar de
+    //Een client kan 2 dingen doen.
+    //1. Nieuwe transactie inserten
+    //2. Clients vragen te transactie te verwijderen als hij niet valiede is.
 }
