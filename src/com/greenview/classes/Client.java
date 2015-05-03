@@ -34,7 +34,9 @@ public class Client {
 
             while(this.byteBuffer.hasRemaining()){
                 this.socketChannel.write(this.byteBuffer);
+
             }
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

@@ -14,11 +14,12 @@ import java.io.Serializable;
  * @Date: 19-4-15
  * @Project: bbs
  */
-public class Transaction implements Serializable {
+public class Transaction{
 
-    private Integer     transactionID   = 0;
-    private Long        sender          = 0L;
-    private Long        receiver        = 0L;
+    private Integer     transactionID       = 0;
+    private Long        sender              = 0L;
+    private Long        receiver            = 0L;
+    private String      TransactionGroup    = "";
 
     public Transaction(){
 

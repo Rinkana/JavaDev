@@ -31,7 +31,6 @@ public class DbHandle {
             dbconfig.setTransactional(true);
             DbHandle = this.dbEnvironment.getEnvironment().openDatabase(null, this.DbName, dbconfig);
 
-            System.out.println("DB connection made!");
         }catch (DatabaseException dbe){
             System.out.println(dbe.toString());
         } catch (Exception e) {
