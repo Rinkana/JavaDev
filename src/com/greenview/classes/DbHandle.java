@@ -1,8 +1,11 @@
 package com.greenview.classes;
 
 import com.sleepycat.je.*;
+import com.sleepycat.je.dbi.Operation;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: max
@@ -12,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 public class DbHandle {
     private DbEnvironmentHandle dbEnvironment = null;
     private Database DbHandle = null;
+    private Cursor dbCursor = null;
     private String DbName = "";
 
     public DbHandle(DbEnvironmentHandle dbEnvironment, String DbName, boolean allowDuplicates){
@@ -79,7 +83,7 @@ public class DbHandle {
         }
     }
 
-    public void getRecord(String key){
+    public void getRecordByKey(String key){
         try {
             DatabaseEntry DbEntryKey = new DatabaseEntry(key.getBytes("UTF-8"));
             DatabaseEntry DbEntryValue = new DatabaseEntry();
@@ -94,6 +98,46 @@ public class DbHandle {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    //Returns the key
+    public String getLastRecord() throws Exception {
+        try{
+            dbCursor = this.DbHandle.openCursor(null, null);
+
+            DatabaseEntry foundKey = new DatabaseEntry();
+            DatabaseEntry foundValue = new DatabaseEntry();
+
+            OperationStatus resultStatus = dbCursor.getLast(foundKey, foundValue, LockMode.DEFAULT);
+            dbCursor.close();
+
+            if(resultStatus == OperationStatus.SUCCESS){
+                return new String(foundKey.getData(),"UTF-8");
+            }
+
+
+        }catch (Exception e){
+
+        }
+        throw new Exception("No results found");
+    }
+    public void listRecords() throws Exception {
+        try{
+            dbCursor = this.DbHandle.openCursor(null, null);
+
+            DatabaseEntry foundKey = new DatabaseEntry();
+            DatabaseEntry foundValue = new DatabaseEntry();
+
+            while(dbCursor.getNext(foundKey, foundValue, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+                System.out.println(new String(foundKey.getData(),"UTF-8"));
+            }
+
+            dbCursor.close();
+
+
+        }catch (Exception e){
+
         }
     }
 
